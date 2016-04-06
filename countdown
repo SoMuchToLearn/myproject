@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+
+<style>
+.container {
+	width:300px;
+	margin-left:auto;
+	margin-right:auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+	<div id="inputArea"></div>
+	<h1 id="displayTimer">0:00</h1>
+
+</div>
+<script>
+var remainingSeconds;
+var intervalHandle;
+
+function resetTimer() {
+	document.getElementById("inputArea").style.display = "block";
+}
+
+function tick() {
+	var timer = document.getElementById("displayTimer");
+	
+	var mins =  Math.floor(remainingSeconds / 60);
+	var sec = remainingSeconds - ( mins * 60);
+	if(sec < 10) {
+		sec = "0" + sec;
+	}
+	
+	var coolTimer = mins + ":" + sec;
+	
+	timer.innerHTML = coolTimer;
+	
+	if(remainingSeconds === 0) {
+		alert("All Done!");
+		clearInterval(intervalHandle);
+		resetTimer();
+	}
+	
+	remainingSeconds--;
+}
+
+function startCountdown() {
+	var minutes = document.getElementById("minutes").value;
+	if(isNaN(minutes)) {
+		alert("Must be a number");
+		return;
+	};
+	
+	remainingSeconds = minutes * 60;
+	intervalHandle = setInterval(tick, 1000);
+	
+	document.getElementById("inputArea").style.display = "none";
+}
+
+
+window.onload = function () {
+	var inputMinutes = document.createElement("input");
+	inputMinutes.setAttribute("type", "input");
+	inputMinutes.setAttribute("id", "minutes");
+	
+	var startButton = document.createElement("input");
+	startButton.setAttribute("type", "button");
+	startButton.setAttribute("value", "Click Me");
+	startButton.onclick = function() {
+		startCountdown();
+	}
+	
+	document.getElementById("inputArea").appendChild(inputMinutes);
+	document.getElementById("inputArea").appendChild(startButton);
+}
+
+</script>
+
+</body>
+</html>
